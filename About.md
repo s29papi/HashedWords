@@ -1,33 +1,84 @@
-# Proposal for Hashed Words: A Game of Secret Products
+# Proposal for Obfuscated Words: A Game of Multiplicative Strategy
+
+---
 
 ## Introduction
-**Hashed Words** is a unique and engaging on-chain game where words transform into numbers, and those numbers are combined to create a secret product. Players must guess the components of that product based on word hints. The twist? The game revolves around clever wordplay and number manipulation, making each guess a strategic challenge.
+
+**Obfuscated Words** is an innovative and exciting on-chain game where words are transformed into unique integers, and these integers combine to form a secret obfuscated product. Players must decode word hints and submit their encoded guesses to align with the master product. The twist? The game uses obfuscation mechanisms to ensure security and fairness, making every player's submission unique.
+
+---
 
 ## Game Overview
-The game centers on secret products derived from hashed words. Each word submitted by players is hashed into a number, and these numbers are combined to form a secret product, which is securely stored on the blockchain. Your task as a player is to guess the components of that product based on the hints provided during the game.
+
+The game revolves around creating and decoding obfuscated word products. Each valid word is transformed into a number, and these numbers are multiplied together to form a **Master Product**. This product is obfuscated to enhance security and stored on the blockchain. Players submit their own obfuscated word products, which are verified for divisibility against the Master Product, creating a fair yet challenging competition.
+
+---
 
 ## How It Works
-1. **Words Turn Into Numbers**:
-   - Players start by submitting a list of words. Each word is hashed into a number.
-   - The numbers are then combined in a specific way to create a secret product, which is stored on the blockchain.
 
-2. **Your Challenge**:
-   - Throughout the game, you will receive a series of word hints. Each word corresponds to a component of the secret product.
-   - You will make your guesses by submitting the numbers you believe match the words. The more correct components you identify, the higher your score.
+### Words Turn Into Numbers
 
-3. **Scoring**:
-   - When you make a guess, the system compares your guess to the original product and calculates the GCD (Greatest Common Divisor).
-   - The higher the GCD, the closer your guess is to the original product. You will be ranked based on how accurate your guesses are.
+- Players are provided with a dictionary of valid words.
+- Each word is encoded into a unique large integer representation (e.g., by encoding letters to hex and converting to a number).
+- The encoded integers of valid words are multiplied together to form the **Master Product**.
 
-## Game Mechanics
-- **Guessing**: You can guess one or more words at a time. Each word is tied to a specific number. Your goal is to correctly identify the components that make up the secret product.
-- **Validating Guesses**: To ensure fairness, the system checks:
-  - **Valid Numbers**: All guessed numbers must be valid based on the hashing mechanism.
-  - **No Repeats**: You cannot guess the same number twice in a round.
-  - **Correct Overlap**: The system uses the GCD to verify that your guesses are valid and close to the real product.
+### Obfuscation of the Master Product
 
-## Why "Hashed Words"?
-The name "Hashed Words" reflects the process of transforming words into numbers (hashed) and using them to form a product. It combines wordplay and number manipulation, where each word serves as a clue leading you to the right number.
+- The Master Product is obfuscated using a **global salt** (a large prime multiplier), creating the **Obfuscated Master Product**:
+  `ObfuscatedMasterProduct = MasterProduct × globalSalt`
+- This ensures the Master Product remains secure until the reveal phase.
+
+### Player Submission
+
+- Players select words from the dictionary to create their own **Player Product** by multiplying the encoded integers of their chosen words:
+  `PlayerProduct = word1 × word2 × ... × wordN`
+- Each player is assigned a unique nonce `noncePlayer`, which is kept secret during gameplay.
+- The player's submission is obfuscated with their nonce:
+  `ObfuscatedPlayerProduct = PlayerProduct × noncePlayer`
+- Players submit `ObfuscatedPlayerProduct` to the game.
+
+### Verification of Submissions
+
+- The game contract checks if the submitted `ObfuscatedPlayerProduct` is divisible by the **Obfuscated Master Product**:
+  `ObfuscatedPlayerProduct % ObfuscatedMasterProduct == 0`
+- This ensures valid submissions without revealing the original Master Product or the Player Product.
+
+### Reveal Phase
+
+- At the end of the game, the global salt `globalSalt` and all player-specific nonces `noncePlayer` are revealed.
+- The Master Product and Player Products are reconstructed and verified:
+  `ObfuscatedPlayerProduct = (MasterProduct × globalSalt) × noncePlayer`
+- The divisibility check confirms that `PlayerProduct % MasterProduct == 0`.
+
+---
+
+## Your Challenge
+
+1. **Decode Word Hints**: During gameplay, you’ll receive word hints. Each hint corresponds to encoded words that form part of the Master Product.
+2. **Submit Obfuscated Products**: Combine the encoded words, obfuscate your submission with the assigned nonce, and send your `ObfuscatedPlayerProduct` to the blockchain.
+3. **Score Points**: Submissions are ranked based on how many valid factors they match with the Master Product.
+
+---
+
+## Scoring
+
+- **Higher Accuracy**: The more valid encoded words in your Player Product that align with the Master Product, the higher your score.
+- **Efficient Guesses**: Submitting fewer, precise guesses reduces computational overhead and improves your ranking.
+
+### Game Mechanics
+
+- Players cannot reuse obfuscations, ensuring fairness and uniqueness.
+- A combination of hints, divisors, and game logic ensures dynamic gameplay.
+
+---
+
+## Why "Obfuscated Words"?
+
+The name "Obfuscated Words" reflects the central idea of transforming words into unique numeric factors and encoding them in an obfuscated manner. The game blends cryptographic principles with wordplay and strategy, making it both intellectually engaging and fun.
+
+---
 
 ## A Game of Strategy
-At its core, **Hashed Words** is a fun and challenging game that encourages players to think strategically. You’ll be deciphering which numbers correspond to the words and trying to guess as many as possible to maximize your score. It’s all about making informed guesses and analyzing the hints to uncover the secret product!
+
+**Obfuscated Words** is more than just a game—it’s a strategic competition of logic, encoding, and deduction. With its unique obfuscation mechanics, players must think critically to deduce valid submissions while ensuring their products align with the Master Product. Get ready to compete, strategize, and uncover the mystery of obfuscated words!
+
