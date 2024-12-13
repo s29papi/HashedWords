@@ -18,7 +18,7 @@ contract ObfuscatedWordsTest is Test {
 
         obfuscatedWords.createGame(masterProduct, startTime, deadline);
 
-        (uint256 retrievedStartTime, uint256 retrievedDeadline, uint256 retrievedMasterProduct, uint256 submissionNo,, address winner) = obfuscatedWords.idToGame(1);
+        (uint256 retrievedStartTime, uint256 retrievedDeadline, uint256 retrievedMasterProduct, uint256 submissionNo,, address winner,) = obfuscatedWords.idToGame(1);
 
         assertEq(retrievedStartTime, startTime, "Start time mismatch");
         assertEq(retrievedDeadline, deadline, "Deadline mismatch");
@@ -160,7 +160,7 @@ contract ObfuscatedWordsTest is Test {
         vm.warp(deadline + 1);
         obfuscatedWords.reveal(1, 2);
 
-        (, , , , uint256 highestScore, address winner) = obfuscatedWords.idToGame(1);
+        (, , , , uint256 highestScore, address winner,) = obfuscatedWords.idToGame(1);
         assertEq(highestScore, 36, "Highest score mismatch");
         assertEq(winner, address(this), "Winner mismatch after reveal");
     }
@@ -172,7 +172,7 @@ contract ObfuscatedWordsTest is Test {
 
         obfuscatedWords.createGame(masterProduct, startTime, deadline);
 
-        (uint256 sTime, uint256 dLine, uint256 mProduct,,,) = obfuscatedWords.idToGame(1);
+        (uint256 sTime, uint256 dLine, uint256 mProduct,,,,) = obfuscatedWords.idToGame(1);
         assertEq(sTime, startTime, "Start time mismatch");
         assertEq(dLine, deadline, "Deadline mismatch");
         assertEq(mProduct, masterProduct, "Master product mismatch");
@@ -194,7 +194,7 @@ contract ObfuscatedWordsTest is Test {
         uint256 score = obfuscatedWords.userScorePerGame(1, address(this));
         assertEq(score, 36, "Score mismatch");
 
-        (, , , , uint256 highestScore, address winner) = obfuscatedWords.idToGame(1);
+        (, , , , uint256 highestScore, address winner,) = obfuscatedWords.idToGame(1);
 
         console.log(highestScore);
         assertEq(highestScore, 36, "Highest score mismatch");
