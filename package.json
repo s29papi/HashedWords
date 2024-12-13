@@ -1,0 +1,11 @@
+{
+  "name": "HashedWords",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/s29papi/HashedWords.git",
+  "author": "S29 <nots29vv@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "viem": "^2.21.54"
+  }
+}
